@@ -3,34 +3,29 @@ package com.example.dictionary;
 import com.example.dictionary.components.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class DictionaryController {
+
     @FXML private TextField searchInputField;
     @FXML private ListView<String> searchResultPanel;
     @FXML private AnchorPane contentPanel;
 
-    final private String[] contentFxml = new String[] {"error.fxml", "word-details.fxml", "add-word.fxml", "edit-word.fxml"};
+    final private String[] contentFxml = new String[] {"error.fxml", "word-details.fxml", "edit-word.fxml"};
 
-    final private Map<String, VBox> contentViews = new HashMap<>();
+    final private Map<String, Node> contentViews = new HashMap<>();
     final private Map<String, ContentController> contentControllers = new HashMap<>();
 
     String currentlySelectedWord;
 
     //STATE MANAGEMENT
-
-    private void displayError(String error) {
-        loadContentView("error.fxml");
-        ErrorController controller = (ErrorController) contentControllers.get("error.fxml");
-        controller.display(error);
-    }
 
     /**
      * Preload the different content views (word details, add word, delete words,... ) into memory
@@ -40,10 +35,10 @@ public class DictionaryController {
         for (String fxml : contentFxml) {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource(fxml));
-            VBox vbox = loader.load();
+            Node node = loader.load();
             ContentController controller = loader.getController();
 
-            contentViews.put(fxml, vbox);
+            contentViews.put(fxml, node);
             contentControllers.put(fxml, controller);
         }
     }
@@ -54,7 +49,7 @@ public class DictionaryController {
     private void loadContentView(String fxmlName) {
         contentPanel.getChildren().clear();
         try {
-            VBox targetContent = contentViews.get(fxmlName);
+            Node targetContent = contentViews.get(fxmlName);
             contentPanel.getChildren().add(targetContent);
             AnchorPane.setBottomAnchor(targetContent, 0.0);
             AnchorPane.setTopAnchor(targetContent, 0.0);
@@ -79,7 +74,12 @@ public class DictionaryController {
         }
     }
 
-    //UI INTERFACE (Called by interactions with the UI elements)
+    public void removeWord() {
+        //TODO: Implement
+        System.out.println("REMOVE " + currentlySelectedWord);
+    }
+
+    //UI NAVIGATION
 
     /**
      * Get the selected word within the words displayed in the search result
@@ -87,10 +87,10 @@ public class DictionaryController {
     public void readSelectedWord() {
         String selected = searchResultPanel.getSelectionModel().getSelectedItem();
         if (selected != null) {
+            currentlySelectedWord = selected;
             switchToWordDetail();
             WordDetailsController controller = (WordDetailsController) contentControllers.get("word-details.fxml");
             controller.display(selected);
-            currentlySelectedWord = selected;
         }
     }
 
@@ -100,30 +100,41 @@ public class DictionaryController {
     }
 
     public void switchToWordDetail() {
-        loadContentView("word-details.fxml");
+        if (currentlySelectedWord != null) {
+            loadContentView("word-details.fxml");
+        } else {
+            contentPanel.getChildren().clear();
+        }
     }
 
     public void switchToAddWord() {
-        loadContentView("add-word.fxml");
-    }
-
-    public void removeWord() {
-        //TODO: Implement
-        System.out.println("REMOVE " + currentlySelectedWord);
+        loadContentView("edit-word.fxml");
+        EditWordController controller = (EditWordController) contentControllers.get("edit-word.fxml");
+        controller.displayAdd();
     }
 
     public void switchToEditWord() {
-        //TODO: Implement
-        System.out.println("EDIT " + currentlySelectedWord);
         loadContentView("edit-word.fxml");
+        EditWordController controller = (EditWordController) contentControllers.get("edit-word.fxml");
+        controller.displayEdit(currentlySelectedWord);
     }
 
     //INITIALIZE
+
+    // Cursed singleton pattern that absolutely does not belong to java
+    public static DictionaryController instance;
+
+    public static void displayError(String error) {
+        instance.loadContentView("error.fxml");
+        ErrorController controller = (ErrorController) instance.contentControllers.get("error.fxml");
+        controller.display(error);
+    }
 
     /**
      * Called on loading time. Load different content panel types into memory
      */
     public void initialize() throws IOException {
+        instance = this;
         preloadContentViews();
     }
 }

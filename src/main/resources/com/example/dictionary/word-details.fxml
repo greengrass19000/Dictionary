@@ -1,6 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.dictionary.components.WordDetailsController" />
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.dictionary.components.WordDetailsController">
+   <content>
+      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="500.0">
+         <children>
+            <AnchorPane>
+               <children>
+                  <Label fx:id="wordLabel" text="Word" wrapText="true">
+                     <font>
+                        <Font name="System Bold" size="26.0" />
+                     </font>
+                     <padding>
+                        <Insets left="20.0" top="15.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="phoneticLabel" text="/phonetic/" textAlignment="RIGHT" wrapText="true" AnchorPane.rightAnchor="60.0">
+                     <font>
+                        <Font name="Cantarell Regular" size="18.0" />
+                     </font>
+                     <padding>
+                        <Insets left="20.0" top="15.0" />
+                     </padding>
+                  </Label>
+                  <Text onMouseClicked="#playVolume" strokeType="OUTSIDE" strokeWidth="0.0" text="" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="15.0">
+                     <font>
+                        <Font name="Font Awesome 5 Free Solid" size="25.0" />
+                     </font>
+                  </Text>
+               </children>
+               <padding>
+                  <Insets right="10.0" />
+               </padding>
+            </AnchorPane>
+            <Label fx:id="translationLabel" text="Translation" wrapText="true">
+               <font>
+                  <Font name="System Italic" size="21.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="20.0" right="25.0" top="5.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="descriptionLabel" text="Description" wrapText="true">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="20.0" right="25.0" />
+               </VBox.margin>
+            </Label>
+         </children>
+      </VBox>
+   </content>
+</ScrollPane>
