@@ -32,6 +32,9 @@ public class EditWordController implements ContentController {
         descriptionField.setText("");
     }
 
+    /**
+     * Display the view for adding word to the database.
+     */
     public void displayAdd() {
         editMode = EditMode.ADD;
         titleLabel.setText("Adding a new phrase:");
@@ -41,6 +44,10 @@ public class EditWordController implements ContentController {
         descriptionField.setText("");
     }
 
+    /**
+     * Display the view for editing an existing entry.
+     * @param word The word chosen
+     */
     public void displayEdit(String word) {
         editMode = EditMode.EDIT;
         titleLabel.setText("Editing \"" + word + "\"");
@@ -51,6 +58,9 @@ public class EditWordController implements ContentController {
         descriptionField.setText("temp");
     }
 
+    /**
+     * Confirm user's action and write to database.
+     */
     public void confirm() {
         String word = wordField.getText();
         String phonetic = phoneticField.getText();
@@ -70,6 +80,9 @@ public class EditWordController implements ContentController {
         }
     }
 
+    /**
+     * Cancel the action and go back.
+     */
     public void cancel() {
         DictionaryController.instance.switchToWordDetail();
     }

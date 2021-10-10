@@ -8,6 +8,9 @@ public enum MessageType {
 
     final private int value;
 
+    /**
+     * enum -> int magic. c# has this built in...
+     */
     MessageType(int value) {
         this.value = value;
     }

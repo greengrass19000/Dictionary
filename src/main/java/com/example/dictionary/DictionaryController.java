@@ -32,8 +32,8 @@ public class DictionaryController {
     //STATE MANAGEMENT
 
     /**
-     * Preload the different content views (word details, add word, delete words,... ) into memory
-     * Avoid having to re-read the fxml files. Also means that the state of these views are persistent
+     * Preload the different content views (word details, add word, delete words,... ) into memory.
+     * Avoid having to re-read the fxml files. Also means that the state of these views are persistent.
      */
     private void preloadContentViews() throws IOException {
         for (String fxml : contentFxml) {
@@ -65,7 +65,7 @@ public class DictionaryController {
     }
 
     /**
-     * Search for similar words to user's query and display them onto searchResultPanel
+     * Search for similar words to user's query and display them onto searchResultPanel.
      * @param query user's input
      */
     public void displaySimilarWords(String query) {
@@ -78,15 +78,18 @@ public class DictionaryController {
         }
     }
 
+    /**
+     * Remove the currently selected word from the database.
+     */
     public void removeWord() {
         //TODO: Implement
-        System.out.println("REMOVE " + currentlySelectedWord);
+        displayMessage("Removed " + currentlySelectedWord + " from database", MessageType.SUCCESS);
     }
 
     //UI NAVIGATION
 
     /**
-     * Get the selected word within the words displayed in the search result
+     * Get the selected word within the words displayed in the search result.
      */
     public void readSelectedWord() {
         String selected = searchResultPanel.getSelectionModel().getSelectedItem();
@@ -136,7 +139,7 @@ public class DictionaryController {
     }
 
     /**
-     * Called on loading time. Load different content panel types into memory
+     * Called on loading time. Load different content panel types into memory.
      */
     public void initialize() throws IOException {
         instance = this;
