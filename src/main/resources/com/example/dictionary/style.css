@@ -78,3 +78,17 @@
 .scroll-pane {
     -fx-border-color: -fx-base;
 }
+
+.error {
+    -fx-background-color: #ffb6b6;
+    -fx-border-color: #cd8484;
+    -fx-background-insets: 1;
+    -fx-border-radius: 2;
+}
+
+.success {
+    -fx-background-color: #a5d4ff;
+    -fx-border-color: #6ba9bf;
+    -fx-background-insets: 1;
+    -fx-border-radius: 2;
+}

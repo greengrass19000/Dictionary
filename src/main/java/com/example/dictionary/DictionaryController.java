@@ -4,6 +4,7 @@ import com.example.dictionary.components.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -13,12 +14,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DictionaryController {
+    // Cursed singleton pattern that absolutely does not belong to java
+    public static DictionaryController instance;
 
     @FXML private TextField searchInputField;
     @FXML private ListView<String> searchResultPanel;
     @FXML private AnchorPane contentPanel;
+    @FXML private Label errorDisplay;
 
-    final private String[] contentFxml = new String[] {"error.fxml", "word-details.fxml", "edit-word.fxml"};
+    final private String[] contentFxml = new String[] {"word-details.fxml", "edit-word.fxml"};
 
     final private Map<String, Node> contentViews = new HashMap<>();
     final private Map<String, ContentController> contentControllers = new HashMap<>();
@@ -56,7 +60,7 @@ public class DictionaryController {
             AnchorPane.setLeftAnchor(targetContent, 0.0);
             AnchorPane.setRightAnchor(targetContent, 0.0);
         } catch (Exception e) {
-            displayError("View has not been preloaded! \n" + e);
+            displayMessage("View has not been preloaded! \n" + e, MessageType.ERROR);
         }
     }
 
@@ -119,15 +123,16 @@ public class DictionaryController {
         controller.displayEdit(currentlySelectedWord);
     }
 
-    //INITIALIZE
+    public void hideMessage() {
+        errorDisplay.setText("");
+        errorDisplay.setVisible(false);
+    }
 
-    // Cursed singleton pattern that absolutely does not belong to java
-    public static DictionaryController instance;
-
-    public static void displayError(String error) {
-        instance.loadContentView("error.fxml");
-        ErrorController controller = (ErrorController) instance.contentControllers.get("error.fxml");
-        controller.display(error);
+    public void displayMessage(String message, MessageType type) {
+        errorDisplay.setText(message);
+        errorDisplay.getStyleClass().clear();
+        errorDisplay.getStyleClass().add(type.getStyleClass());
+        errorDisplay.setVisible(true);
     }
 
     /**
@@ -135,6 +140,7 @@ public class DictionaryController {
      */
     public void initialize() throws IOException {
         instance = this;
+        errorDisplay.setVisible(false);
         preloadContentViews();
     }
 }

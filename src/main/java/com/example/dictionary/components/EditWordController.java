@@ -1,9 +1,12 @@
 package com.example.dictionary.components;
 
 import com.example.dictionary.DictionaryController;
+import com.example.dictionary.MessageType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+
+import java.util.Objects;
 
 
 public class EditWordController implements ContentController {
@@ -54,11 +57,16 @@ public class EditWordController implements ContentController {
         String translation = translationField.getText();
         String description = descriptionField.getText();
 
+        if (Objects.equals(word, "")) {
+            DictionaryController.instance.displayMessage("Phrase field can not be empty!", MessageType.ERROR);
+            return;
+        }
+
         //TODO: save the data
         if (editMode == EditMode.ADD) {
-            System.out.printf("CONFIRMED ADD: %s, %s, %s, %s%n", word, phonetic, translation, description);
+            DictionaryController.instance.displayMessage("Added \"" + word + "\" to the database", MessageType.SUCCESS);
         } else if (editMode == EditMode.EDIT) {
-            System.out.printf("CONFIRMED EDIT: %s, %s, %s, %s%n", word, phonetic, translation, description);
+            DictionaryController.instance.displayMessage("Successfully edited \"" + word + "\"", MessageType.SUCCESS);
         }
     }
 

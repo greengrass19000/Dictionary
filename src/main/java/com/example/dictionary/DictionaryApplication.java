@@ -1,7 +1,6 @@
 package com.example.dictionary;
 
 import javafx.application.Application;
-import javafx.css.Stylesheet;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;

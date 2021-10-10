@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.dictionary.components.EditWordController">
    <children>
       <Label fx:id="titleLabel" text="Editing entry: ">
@@ -38,9 +37,9 @@
          </VBox.margin>
          <children>
             <Label text="Phrase" />
-            <TextField fx:id="wordField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="translationField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label text="Translation" GridPane.rowIndex="1" />
-            <TextField fx:id="translationField" GridPane.columnIndex="1" />
+            <TextField fx:id="wordField" GridPane.columnIndex="1" />
             <Label text="Phonetic" GridPane.rowIndex="2" />
             <TextField fx:id="phoneticField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label text="Description" GridPane.rowIndex="3" />
