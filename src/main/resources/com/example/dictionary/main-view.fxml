@@ -9,43 +9,49 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" prefHeight="500" prefWidth="750" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.dictionary.DictionaryController">
-   <children>
-      <SplitPane dividerPositions="0.5" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" VBox.vgrow="ALWAYS">
-        <items>
-          <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="300.0">
-               <children>
-                  <ListView fx:id="searchResultPanel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#readSelectedWord" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0" />
-                  <TextField fx:id="searchInputField" layoutX="25.0" layoutY="14.0" maxWidth="50.0" onAction="#performSearch" promptText="Search for words..." AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="10.0" />
-                  <Button maxWidth="25.0" mnemonicParsing="false" onAction="#performSearch" text="→" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
-                  <ButtonBar buttonMinWidth="100.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
-                     <buttons>
-                        <Text onMouseClicked="#switchToAddWord" strokeType="OUTSIDE" strokeWidth="0.0" text="">
-                           <font>
-                              <Font name="Font Awesome 5 Free Solid" size="16.0" />
-                           </font>
-                        </Text>
-                        <Text onMouseClicked="#removeWord" strokeType="OUTSIDE" strokeWidth="0.0" text="">
-                           <font>
-                              <Font name="Font Awesome 5 Free Solid" size="16.0" />
-                           </font>
-                        </Text>
-                        <Text onMouseClicked="#switchToEditWord" strokeType="OUTSIDE" strokeWidth="0.0" text="">
-                           <font>
-                              <Font name="Font Awesome 5 Free Solid" size="16.0" />
-                           </font>
-                        </Text>
-                     </buttons>
-                  </ButtonBar>
-               </children>
-            </AnchorPane>
-            <AnchorPane fx:id="contentPanel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
-        </items>
-         <VBox.margin>
-            <Insets />
-         </VBox.margin>
-      </SplitPane>
-   </children>
+<VBox alignment="CENTER" prefHeight="500" prefWidth="750" xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.dictionary.DictionaryController">
+    <SplitPane dividerPositions="0.5" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+               minHeight="-Infinity" minWidth="-Infinity" VBox.vgrow="ALWAYS">
+        <VBox.margin>
+            <Insets/>
+        </VBox.margin>
+        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="300.0" styleClass="left-pane">
+            <ListView fx:id="searchResultPanel" maxHeight="1.7976931348623157E308"
+                      maxWidth="1.7976931348623157E308" onMouseClicked="#readSelectedWord"
+                      AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0"
+                      AnchorPane.topAnchor="50.0"/>
+            <TextField fx:id="searchInputField" layoutX="25.0" layoutY="14.0" maxWidth="50.0"
+                       onAction="#performSearch" promptText="Search for words..." AnchorPane.leftAnchor="10.0"
+                       AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="10.0"/>
+            <Button maxWidth="25.0" mnemonicParsing="false" onAction="#performSearch" styleClass="search-button"
+                    text="→" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0"/>
+            <ButtonBar buttonMinWidth="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                       nodeOrientation="LEFT_TO_RIGHT" AnchorPane.bottomAnchor="10.0"
+                       AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                <buttons>
+                    <Button mnemonicParsing="false" onMouseClicked="#switchToAddWord" styleClass="icon-button"
+                            text="">
+                        <font>
+                            <Font name="Font Awesome 5 Free Solid" size="15.0"/>
+                        </font>
+                    </Button>
+                    <Button mnemonicParsing="false" onMouseClicked="#removeWord" styleClass="icon-button"
+                            text="">
+                        <font>
+                            <Font name="Font Awesome 5 Free Solid" size="15.0"/>
+                        </font>
+                    </Button>
+                    <Button mnemonicParsing="false" onMouseClicked="#switchToEditWord" styleClass="icon-button"
+                            text="">
+                        <font>
+                            <Font name="Font Awesome 5 Free Solid" size="15.0"/>
+                        </font>
+                    </Button>
+                </buttons>
+            </ButtonBar>
+        </AnchorPane>
+        <AnchorPane fx:id="contentPanel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"/>
+    </SplitPane>
 </VBox>
