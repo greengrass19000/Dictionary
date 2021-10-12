@@ -2,13 +2,14 @@ package com.example.dictionary.components;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.text.TextFlow;
+import com.example.dictionary.utilities.TextFlowFormatter;
 
 public class WordDetailsController implements ContentController {
 
     @FXML private Label wordLabel;
     @FXML private Label phoneticLabel;
-    @FXML private Label translationLabel;
-    @FXML private Label descriptionLabel;
+    @FXML private TextFlow description;
 
     private String currentWord;
 
@@ -16,17 +17,15 @@ public class WordDetailsController implements ContentController {
     public void resetView() {
         wordLabel.setText("");
         phoneticLabel.setText("");
-        translationLabel.setText("");
-        descriptionLabel.setText("");
+        description.getChildren().clear();
     }
 
     public void display(String word) {
         currentWord = word;
         //TODO: Actually do something that makes sense
         wordLabel.setText(word);
-        phoneticLabel.setText("/"+word+"/");
-        translationLabel.setText("translation of " + word);
-        descriptionLabel.setText("this is a word, it means something");
+        phoneticLabel.setText("/" + word + "/");
+        TextFlowFormatter.formatDescription(description, word + "description", true);
     }
 
     public void playVolume() {
