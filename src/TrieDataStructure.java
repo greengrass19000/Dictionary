@@ -10,7 +10,7 @@ class TrieNode {
     String mean;
     LinkedList<TrieNode> childList;
 
-    /** Constructor */
+    /** Constructor.*/
     public TrieNode(char c) {
         childList = new LinkedList<>();
         isEnd = false;
@@ -31,7 +31,7 @@ class TrieNode {
 public class TrieDataStructure {
     private TrieNode root;
     private int wordlimit;
-    /** Constructor */
+    /** Constructor.*/
     public TrieDataStructure()
     {
         root = new TrieNode(' ');
@@ -41,8 +41,8 @@ public class TrieDataStructure {
         return root;
     }
 
-    /** This function checks if the string doesn't have strange character, only space approved */
-    public boolean Checkword(String word) {
+    /** This function checks if the string doesn't have strange character, only space approved.*/
+    private boolean Checkword(String word) {
         for(char l : word.toCharArray()) {
             if((l > 'z' || l < 'a') && (l > 'Z' || l < 'A') && l != ' ') {
                 System.out.println("Illegal character!!!");
@@ -52,8 +52,8 @@ public class TrieDataStructure {
         return true;
     }
 
-    /** remove unnecessary space characters */
-    public String processword(String word) {
+    /** remove unnecessary space characters.*/
+    private String processword(String word) {
         word = word.trim();
         String t = "";
         boolean spaceexisted = false;
@@ -71,7 +71,7 @@ public class TrieDataStructure {
         return t;
     }
 
-    /** This function is used to insert a word in trie*/
+    /** This function is used to insert a word in trie.*/
     public void insert(String word, String mean) {
         if (search(word) == true || !Checkword(word))
             return;
@@ -92,8 +92,8 @@ public class TrieDataStructure {
         current.mean = mean;
     }
 
-    /** This function is used to search a word in trie*/
-    public boolean search(String word) {
+    /** This function is used to search a word in trie.*/
+    private boolean search(String word) {
         TrieNode current = root;
         for (char ch : word.toCharArray() ) {
             if (current.getChild(ch) == null)
@@ -106,7 +106,7 @@ public class TrieDataStructure {
         return false;
     }
 
-    /** This function is used to remove function from trie*/
+    /** This function is used to remove function from trie.*/
     public void remove(String word) {
         if(!Checkword(word)) return;
         word = processword(word);
@@ -131,7 +131,7 @@ public class TrieDataStructure {
     }
 
 
-    /** This function is used to change the meaning of the word if existed*/
+    /** This function is used to change the meaning of the word if existed.*/
     public void change(String word, String mean) {
         if(!Checkword(word)) return;
         word = processword(word);
@@ -147,8 +147,8 @@ public class TrieDataStructure {
         current.mean = mean;
     }
 
-    /** This funtion checks if there is at least one word containing the string s*/
-    boolean search2(String s) {
+    /** This funtion checks if there is at least one word containing the string s.*/
+    private boolean search2(String s) {
         TrieNode current = root;
         for (char ch : s.toCharArray() ) {
             if (current.getChild(ch) == null)
@@ -187,13 +187,13 @@ public class TrieDataStructure {
         wordlimit = amount;
         TrieNode current = root;
         for (char ch : s.toCharArray() ) {
-                current = current.getChild(ch);
+            current = current.getChild(ch);
         }
         System.out.print(Lookup(current, s));
         current = root;
         s = Character.toUpperCase(s.charAt(0)) + s.substring(1);
         for (char ch : s.toCharArray() ) {
-                current = current.getChild(ch);
+            current = current.getChild(ch);
         }
         System.out.print(Lookup(current, s));
     }
@@ -209,11 +209,11 @@ public class TrieDataStructure {
             if(node.isEnd == true) {
                 //Test print
                 System.out.print(s);
-                for(int i = s.length(); i < 25; i++) System.out.print("-");
+                for(int i = s.length(); i < 30; i++) System.out.print("-");
                 System.out.println(node.mean);
                 //Test print
             }
-            ShowAllWords(node,s);
+            ShowAllWords(node, s);
             s = s.substring(0, s.length() - 1);
         }
     }
