@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17">
+    <ChoiceBox accessibleText="Line Type" prefWidth="110.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="0.0" />
+    <TextField AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="85.0" AnchorPane.topAnchor="0.0" />
+    <Button accessibleText="Add line below" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefWidth="20.0" text="+" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="0.0" />
+      <Button accessibleText="Add line below" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefWidth="20.0" text="-" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0" />
+   <padding>
+      <Insets bottom="2.0" top="2.0" />
+   </padding>
+</AnchorPane>
