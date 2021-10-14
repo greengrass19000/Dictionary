@@ -1,46 +1,69 @@
 import jdk.nashorn.internal.lookup.Lookup;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Dictionary;
-import java.util.Scanner;
 
-/** Các chức năng đã có của code.
+import java.util.Dictionary;
+
+
+/** Các chức năng đã có của code:
  * Thêm bớt xóa sửa cơ bản.
  * Kiểm tra xâu với ký tự không hợp lệ.
  * Xử lý xâu với những dấu cách bị thừa.
  * Đưa ra toàn bộ từ điển.
  * Đưa ra một số từ mà có xâu đang nhập là tiền tố.
- * Các từ viết hoa vẫn có thể lặp.
- * Đọc được dữ liệu từ txt.
+ * Tránh lặp từ.
+ * Đọc được dữ liệu từ file text.
  */
 public class Commandline {
     public TrieDataStructure Dictionary = new TrieDataStructure();
-    public void ReadFromFile() {
-        try {
-            File myObj = new File("Dictionary.txt");
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine();
-                /** Thay đổi format từ sẽ ở đây, tạm thời là ':' Ví dụ: apple:quả táo.*/
-                String[] word = data.split(":");
-                Dictionary.insert(word[0], word[1]);
+
+    /** This function checks if the string doesn't have strange character, only space approved.*/
+    public boolean Checkword(String word) {
+        for(char l : word.toCharArray()) {
+            if((l > 'z' || l < 'a') && (l > 'Z' || l < 'A') && l != ' ') {
+                System.out.println("Illegal character!!!");
+                return false;
             }
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
         }
+        return true;
     }
 
-    public void ShowAllWords() {
-        Dictionary.ShowAllWords(Dictionary.getRoot(), "");
+    /** remove unnecessary space characters.*/
+    public String processword(String word) {
+        word = word.trim();
+        String t = "";
+        boolean spaceexisted = false;
+        for(char l : word.toCharArray()) {
+            if (l == ' ') {
+                spaceexisted = true;
+            } else {
+                if(spaceexisted) {
+                    t += ' ';
+                    spaceexisted = false;
+                }
+                t += l;
+            }
+        }
+        return t;
+    }
+
+    public void insert(String word, String mean) {
+        if(!Checkword(word)) return;
+        word = processword(word);
+        //Dictionary.insert(word, mean);
     }
 
 
+    public void ReadFromFile() {
+        Dictionary.ReadFromFile();
+    }
+
+    public void Lookup(String s, int amount) {
+        Dictionary.Lookup(s, amount);
+    }
     public static void main(String[] args) {
         Commandline command = new Commandline();
         command.ReadFromFile();
-        command.Dictionary.insert("adf", "123");
-        command.ShowAllWords();
+        command.Lookup("a", 10);
+        //command.Lookup("h", 2);
+        //command.ShowAllWords();
     }
 }

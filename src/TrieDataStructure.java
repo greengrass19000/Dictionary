@@ -1,99 +1,22 @@
+import sun.awt.image.ImageWatched;
 import sun.text.normalizer.Trie;
 import java.lang.*;
 import java.io.*;
 import java.util.*;
-
-class TrieNode {
-    char data;
-    boolean isEnd;
-    int count;
-    String mean;
-    LinkedList<TrieNode> childList;
-
-    /** Constructor.*/
-    public TrieNode(char c) {
-        childList = new LinkedList<>();
-        isEnd = false;
-        data = c;
-        count = 0;
-        mean = "";
-    }
-
-    public TrieNode getChild(char c) {
-        if (childList != null)
-            for (TrieNode eachChild : childList)
-                if (eachChild.data == c)
-                    return eachChild;
-        return null;
-    }
-}
+import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 public class TrieDataStructure {
-    private TrieNode root;
+    public TrieNode root;
     private int wordlimit;
-    /** Constructor.*/
-    public TrieDataStructure()
-    {
+
+    public TrieDataStructure() {
         root = new TrieNode(' ');
     }
 
-    public TrieNode getRoot() {
-        return root;
-    }
-
-    /** This function checks if the string doesn't have strange character, only space approved.*/
-    private boolean Checkword(String word) {
-        for(char l : word.toCharArray()) {
-            if((l > 'z' || l < 'a') && (l > 'Z' || l < 'A') && l != ' ') {
-                System.out.println("Illegal character!!!");
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /** remove unnecessary space characters.*/
-    private String processword(String word) {
-        word = word.trim();
-        String t = "";
-        boolean spaceexisted = false;
-        for(char l : word.toCharArray()) {
-            if (l == ' ') {
-                spaceexisted = true;
-            } else {
-                if(spaceexisted) {
-                    t += ' ';
-                    spaceexisted = false;
-                }
-                t += l;
-            }
-        }
-        return t;
-    }
-
-    /** This function is used to insert a word in trie.*/
-    public void insert(String word, String mean) {
-        if (search(word) == true || !Checkword(word))
-            return;
-        word = processword(word);
-        TrieNode current = root;
-        for (char ch : word.toCharArray() ) {
-            TrieNode child = current.getChild(ch);
-            if (child != null)
-                current = child;
-            else {
-                // If child not present, adding it io the list
-                current.childList.add(new TrieNode(ch));
-                current = current.getChild(ch);
-            }
-            current.count++;
-        }
-        current.isEnd = true;
-        current.mean = mean;
-    }
-
     /** This function is used to search a word in trie.*/
-    private boolean search(String word) {
+    public boolean search(String word) {
         TrieNode current = root;
         for (char ch : word.toCharArray() ) {
             if (current.getChild(ch) == null)
@@ -104,47 +27,6 @@ public class TrieDataStructure {
         if (current.isEnd == true)
             return true;
         return false;
-    }
-
-    /** This function is used to remove function from trie.*/
-    public void remove(String word) {
-        if(!Checkword(word)) return;
-        word = processword(word);
-        word.toLowerCase();
-        if (search(word) == false) {
-            System.out.println(word +" does not exist");
-            return;
-        }
-        TrieNode current = root;
-        for (char ch : word.toCharArray()) {
-            TrieNode child = current.getChild(ch);
-            if (child.count == 1) {
-                current.childList.remove(child);
-                return;
-            }
-            else {
-                child.count--;
-                current = child;
-            }
-        }
-        current.isEnd = false;
-    }
-
-
-    /** This function is used to change the meaning of the word if existed.*/
-    public void change(String word, String mean) {
-        if(!Checkword(word)) return;
-        word = processword(word);
-        word.toLowerCase();
-        if (search(word) == false) {
-            System.out.println("Word hasn't existed");
-            return;
-        }
-        TrieNode current = root;
-        for (char ch : word.toCharArray()) {
-            current = current.getChild(ch);
-        }
-        current.mean = mean;
     }
 
     /** This funtion checks if there is at least one word containing the string s.*/
@@ -159,6 +41,7 @@ public class TrieDataStructure {
         return true;
     }
 
+    /** This funtion suggest the words for the current string.*/
     private String Lookup(TrieNode root, String s) {
         if(wordlimit == 0) return "";
         TrieNode current = root;
@@ -170,7 +53,11 @@ public class TrieDataStructure {
             TrieNode node = iter.next();
             s += node.data;
             if(node.isEnd == true) {
-                t += s + "\n";
+                String s2 = s;
+                for (Integer l : current.upper) {
+                    Character.toUpperCase(s.charAt(l));
+                }
+                t += s2 + "\n";
                 --wordlimit;
             }
             t += Lookup(node, s);
@@ -180,9 +67,7 @@ public class TrieDataStructure {
     }
 
     public void Lookup(String s, int amount) {
-        if(!Checkword(s)) return;
-        s = processword(s);
-        s.toLowerCase();
+        s = s.toLowerCase();
         if(!search2(s)) return;
         wordlimit = amount;
         TrieNode current = root;
@@ -190,32 +75,84 @@ public class TrieDataStructure {
             current = current.getChild(ch);
         }
         System.out.print(Lookup(current, s));
-        current = root;
-        s = Character.toUpperCase(s.charAt(0)) + s.substring(1);
-        for (char ch : s.toCharArray() ) {
-            current = current.getChild(ch);
-        }
-        System.out.print(Lookup(current, s));
     }
 
-    public void ShowAllWords(TrieNode root, String s) {
-        TrieNode current = root;
-        if(root.childList==null || root.childList.size()==0)
-            return;
-        Iterator<TrieNode> iter=current.childList.iterator();
-        while(iter.hasNext()) {
-            TrieNode node = iter.next();
-            s+=node.data;
-            if(node.isEnd == true) {
-                //Test print
-                System.out.print(s);
-                for(int i = s.length(); i < 30; i++) System.out.print("-");
-                System.out.println(node.mean);
-                //Test print
+    /** Import Dictionary.*/
+    public void ReadFromFile() {
+        try {
+            File myObj = new File("Dictionary.txt");
+            Scanner myReader = new Scanner(myObj);
+            String s = myReader.nextLine();
+            String l = "";
+            while (myReader.hasNextLine()) {
+                s = myReader.nextLine();
+                char type = s.charAt(0);
+                if(type ==  '@') {
+                    TrieNode current = root;
+                    InsertWordFromFile(current, s);
+                    boolean isType = true;
+                    while(myReader.hasNextLine()) {
+                        s  = myReader.nextLine();
+                        if(Objects.equals(s, ""))
+                            break;
+                        type = s.charAt(0);
+                        s = s.substring(1);
+                        switch(type) {
+                            case '*':
+                                isType = true;
+                                current.type.add(new Type(s));
+                                break;
+                            case '!':
+                                isType = false;
+                                current.idiom.add(new Idiom(s));
+                                break;
+                            case '-':
+                                if(isType) {
+                                    current.type.getLast().addmean(s);
+                                } else {
+                                    current.idiom.getLast().add(s);
+                                }
+                                break;
+                            case '=':
+                                current.type.getLast().addexample(s);
+                                break;
+                            default:
+                                current.type.getLast().addphonetic(s);
+                        }
+                    }
+                }
             }
-            ShowAllWords(node, s);
-            s = s.substring(0, s.length() - 1);
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
         }
+    }
+
+    private void InsertWordFromFile(TrieNode current, String s) {
+        s = s.substring(1);
+        String[] word = s.split(" ");
+        LinkedList<Integer> tmp = new LinkedList<Integer>();
+        int i = 0;
+        for (char ch : word[0].toCharArray()) {
+            if (Character.isUpperCase(ch)) {
+                tmp.add(i);
+                ch = Character.toLowerCase(ch);
+            }
+            TrieNode child = current.getChild(ch);
+            if (child != null)
+                current = child;
+            else {
+                current.childList.add(new TrieNode(ch));
+                current = current.getChild(ch);
+            }
+            current.count++;
+            ++i;
+        }
+        current.isEnd = true;
+        current.upper = tmp;
+        if(word.length > 1)
+            current.phonetic = word[1];
     }
 
 }
