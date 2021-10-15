@@ -1,7 +1,9 @@
+package com.example.dictionary.backend;
+
 import java.util.LinkedList;
 
 public class Meaning {
-    String mean = "";
+    String mean;
     LinkedList<String> childList;
 
     Meaning(String s) {
@@ -14,10 +16,10 @@ public class Meaning {
     }
 
     public String get() {
-        String s = mean;
+        StringBuilder s = new StringBuilder(mean);
         for(String t : childList) {
-            s +=   "            " + t + "\n";
+            s.append("            ").append(t).append("\n");
         }
-        return s;
+        return s.toString();
     }
 }

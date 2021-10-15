@@ -1,3 +1,5 @@
+package com.example.dictionary.backend;
+
 import java.util.LinkedList;
 
 public class TrieNode {

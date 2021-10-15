@@ -1,7 +1,9 @@
+package com.example.dictionary.backend;
+
 import java.util.LinkedList;
 
 public class Idiom {
-    String idiom = "";
+    String idiom;
     LinkedList<String> childList;
 
     Idiom(String s) {
@@ -14,10 +16,10 @@ public class Idiom {
     }
 
     public String get() {
-        String s = idiom;
+        StringBuilder s = new StringBuilder(idiom);
         for(String t : childList) {
-            s += "            " + t  + "\n";
+            s.append("            ").append(t).append("\n");
         }
-        return s;
+        return s.toString();
     }
 }

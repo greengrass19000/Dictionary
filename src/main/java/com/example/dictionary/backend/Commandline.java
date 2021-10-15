@@ -1,8 +1,4 @@
-import jdk.nashorn.internal.lookup.Lookup;
-
-import java.util.Dictionary;
-
-
+package com.example.dictionary.backend;
 /** Các chức năng đã có của code:
  * Thêm bớt xóa sửa cơ bản.
  * Kiểm tra xâu với ký tự không hợp lệ.
@@ -16,7 +12,7 @@ public class Commandline {
     public TrieDataStructure Dictionary = new TrieDataStructure();
 
     /** This function checks if the string doesn't have strange character, only space approved.*/
-    public boolean Checkword(String word) {
+    public boolean checkWord(String word) {
         for(char l : word.toCharArray()) {
             if((l > 'z' || l < 'a') && (l > 'Z' || l < 'A') && l != ' ') {
                 System.out.println("Illegal character!!!");
@@ -27,42 +23,43 @@ public class Commandline {
     }
 
     /** remove unnecessary space characters.*/
-    public String processword(String word) {
+    public String processWord(String word) {
         word = word.trim();
-        String t = "";
+        StringBuilder t = new StringBuilder();
         boolean spaceexisted = false;
         for(char l : word.toCharArray()) {
             if (l == ' ') {
                 spaceexisted = true;
             } else {
                 if(spaceexisted) {
-                    t += ' ';
+                    t.append(' ');
                     spaceexisted = false;
                 }
-                t += l;
+                t.append(l);
             }
         }
-        return t;
+        return t.toString();
     }
 
     public void insert(String word, String mean) {
-        if(!Checkword(word)) return;
-        word = processword(word);
-        //Dictionary.insert(word, mean);
+        if(!checkWord(word)) return;
+        word = processWord(word);
+//        Dictionary.insert(word, mean);
     }
 
 
-    public void ReadFromFile() {
-        Dictionary.ReadFromFile();
+    public void readFromFile() {
+        Dictionary.readFromFile();
     }
 
-    public void Lookup(String s, int amount) {
-        Dictionary.Lookup(s, amount);
+    public void lookup(String s, int amount) {
+        Dictionary.lookup(s, amount);
     }
+
     public static void main(String[] args) {
         Commandline command = new Commandline();
-        command.ReadFromFile();
-        command.Lookup("a", 10);
+        command.readFromFile();
+        command.lookup("a", 10);
         //command.Lookup("h", 2);
         //command.ShowAllWords();
     }

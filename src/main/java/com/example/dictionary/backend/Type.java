@@ -1,3 +1,5 @@
+package com.example.dictionary.backend;
+
 import java.util.LinkedList;
 
 public class Type{
@@ -13,19 +15,19 @@ public class Type{
         childList = new LinkedList<>();
     }
 
-    public void addphonetic(String s) {
+    public void addPhonetic(String s) {
         type += s;
     }
 
     public void addexample(String s){
         if(childList.isEmpty()) {
             //System.out.println("Error at : " + s);
-            addmean(s);
+            addMean(s);
         }
         childList.getLast().add(s);
     }
 
-    public void addmean(String s) {
+    public void addMean(String s) {
         childList.add(new Meaning(s));
     }
 

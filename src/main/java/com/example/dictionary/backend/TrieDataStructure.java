@@ -1,7 +1,6 @@
-import sun.awt.image.ImageWatched;
-import sun.text.normalizer.Trie;
+package com.example.dictionary.backend;
+
 import java.lang.*;
-import java.io.*;
 import java.util.*;
 import java.util.Scanner;
 import java.io.File;
@@ -9,7 +8,7 @@ import java.io.FileNotFoundException;
 
 public class TrieDataStructure {
     public TrieNode root;
-    private int wordlimit;
+    private int wordLimit;
 
     public TrieDataStructure() {
         root = new TrieNode(' ');
@@ -24,12 +23,10 @@ public class TrieDataStructure {
             else
                 current = current.getChild(ch);
         }
-        if (current.isEnd == true)
-            return true;
-        return false;
+        return current.isEnd;
     }
 
-    /** This funtion checks if there is at least one word containing the string s.*/
+    /** This function checks if there is at least one word containing the string s.*/
     private boolean search2(String s) {
         TrieNode current = root;
         for (char ch : s.toCharArray() ) {
@@ -41,44 +38,45 @@ public class TrieDataStructure {
         return true;
     }
 
-    /** This funtion suggest the words for the current string.*/
-    private String Lookup(TrieNode root, String s) {
-        if(wordlimit == 0) return "";
-        TrieNode current = root;
+    /** This function suggest the words for the current string.*/
+    private String lookup(TrieNode root, String s) {
+        if(wordLimit == 0) return "";
         if(root.childList == null || root.childList.size() == 0)
             return "";
-        String t = "";
-        Iterator<TrieNode> iter=current.childList.iterator();
-        while(iter.hasNext()) {
-            TrieNode node = iter.next();
+        StringBuilder t = new StringBuilder();
+        for (TrieNode node : root.childList) {
             s += node.data;
-            if(node.isEnd == true) {
-                String s2 = s;
-                for (Integer l : current.upper) {
-                    Character.toUpperCase(s.charAt(l));
+            if (node.isEnd) {
+                for (Integer l : root.upper) {
+                    char c = s.charAt(l);
+                    c = Character.toUpperCase(c);
+
+                    StringBuilder newStr = new StringBuilder(s);
+                    newStr.setCharAt(l, c);
+                    s = newStr.toString();
                 }
-                t += s2 + "\n";
-                --wordlimit;
+                t.append(s).append("\n");
+                --wordLimit;
             }
-            t += Lookup(node, s);
+            t.append(lookup(node, s));
             s = s.substring(0, s.length() - 1);
         }
-        return t;
+        return t.toString();
     }
 
-    public void Lookup(String s, int amount) {
+    public void lookup(String s, int amount) {
         s = s.toLowerCase();
         if(!search2(s)) return;
-        wordlimit = amount;
+        wordLimit = amount;
         TrieNode current = root;
         for (char ch : s.toCharArray() ) {
             current = current.getChild(ch);
         }
-        System.out.print(Lookup(current, s));
+        System.out.print(lookup(current, s));
     }
 
     /** Import Dictionary.*/
-    public void ReadFromFile() {
+    public void readFromFile() {
         try {
             File myObj = new File("Dictionary.txt");
             Scanner myReader = new Scanner(myObj);
@@ -89,7 +87,7 @@ public class TrieDataStructure {
                 char type = s.charAt(0);
                 if(type ==  '@') {
                     TrieNode current = root;
-                    InsertWordFromFile(current, s);
+                    insertWordFromFile(current, s);
                     boolean isType = true;
                     while(myReader.hasNextLine()) {
                         s  = myReader.nextLine();
@@ -108,7 +106,7 @@ public class TrieDataStructure {
                                 break;
                             case '-':
                                 if(isType) {
-                                    current.type.getLast().addmean(s);
+                                    current.type.getLast().addMean(s);
                                 } else {
                                     current.idiom.getLast().add(s);
                                 }
@@ -117,7 +115,7 @@ public class TrieDataStructure {
                                 current.type.getLast().addexample(s);
                                 break;
                             default:
-                                current.type.getLast().addphonetic(s);
+                                current.type.getLast().addPhonetic(s);
                         }
                     }
                 }
@@ -129,10 +127,10 @@ public class TrieDataStructure {
         }
     }
 
-    private void InsertWordFromFile(TrieNode current, String s) {
+    private void insertWordFromFile(TrieNode current, String s) {
         s = s.substring(1);
         String[] word = s.split(" ");
-        LinkedList<Integer> tmp = new LinkedList<Integer>();
+        LinkedList<Integer> tmp = new LinkedList<>();
         int i = 0;
         for (char ch : word[0].toCharArray()) {
             if (Character.isUpperCase(ch)) {
@@ -155,4 +153,76 @@ public class TrieDataStructure {
             current.phonetic = word[1];
     }
 
+    public void showAllWords(TrieNode root, String s) {
+        if(root.childList==null || root.childList.size()==0)
+            return;
+        for (TrieNode node : root.childList) {
+            s += node.data;
+            if (node.isEnd) {
+                //Test print
+                System.out.print(s);
+                for (int i = s.length(); i < 30; i++) System.out.print("-");
+                System.out.println(node.mean);
+                //Test print
+            }
+            showAllWords(node, s);
+            s = s.substring(0, s.length() - 1);
+        }
+    }
+
+    /** This function is used to change the meaning of the word if existed.*/
+    public void change(String word, String mean) {
+        word = word.toLowerCase();
+        if (!search(word)) {
+            System.out.println("Word hasn't existed");
+            return;
+        }
+        TrieNode current = root;
+        for (char ch : word.toCharArray()) {
+            current = current.getChild(ch);
+        }
+        current.mean = mean;
+    }
+
+    /** This function is used to insert a word in trie.*/
+    public void insert(String word, String mean) {
+        if (search(word))
+            return;
+        TrieNode current = root;
+        for (char ch : word.toCharArray() ) {
+            TrieNode child = current.getChild(ch);
+            if (child != null)
+                current = child;
+            else {
+                // If child not present, adding it io the list
+                current.childList.add(new TrieNode(ch));
+                current = current.getChild(ch);
+            }
+            current.count++;
+        }
+        current.isEnd = true;
+        current.mean = mean;
+    }
+
+    /** This function is used to remove function from trie.*/
+    public void remove(String word) {
+        word = word.toLowerCase();
+        if (!search(word)) {
+            System.out.println(word +" does not exist");
+            return;
+        }
+        TrieNode current = root;
+        for (char ch : word.toCharArray()) {
+            TrieNode child = current.getChild(ch);
+            if (child.count == 1) {
+                current.childList.remove(child);
+                return;
+            }
+            else {
+                child.count--;
+                current = child;
+            }
+        }
+        current.isEnd = false;
+    }
 }
