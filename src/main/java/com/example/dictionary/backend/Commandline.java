@@ -59,7 +59,7 @@ public class Commandline {
     public static void main(String[] args) {
         Commandline command = new Commandline();
         command.readFromFile();
-        command.lookup("a", 10);
+        command.lookup("", 10);
         //command.Lookup("h", 2);
         //command.ShowAllWords();
     }

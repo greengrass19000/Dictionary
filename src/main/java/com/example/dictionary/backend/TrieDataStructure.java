@@ -45,6 +45,7 @@ public class TrieDataStructure {
             return "";
         StringBuilder t = new StringBuilder();
         for (TrieNode node : root.childList) {
+            if(wordLimit == 0) break;
             s += node.data;
             if (node.isEnd) {
                 for (Integer l : root.upper) {
@@ -81,7 +82,6 @@ public class TrieDataStructure {
             File myObj = new File("Dictionary.txt");
             Scanner myReader = new Scanner(myObj);
             String s = myReader.nextLine();
-            String l = "";
             while (myReader.hasNextLine()) {
                 s = myReader.nextLine();
                 char type = s.charAt(0);
@@ -153,22 +153,6 @@ public class TrieDataStructure {
             current.phonetic = word[1];
     }
 
-    public void showAllWords(TrieNode root, String s) {
-        if(root.childList==null || root.childList.size()==0)
-            return;
-        for (TrieNode node : root.childList) {
-            s += node.data;
-            if (node.isEnd) {
-                //Test print
-                System.out.print(s);
-                for (int i = s.length(); i < 30; i++) System.out.print("-");
-                System.out.println(node.mean);
-                //Test print
-            }
-            showAllWords(node, s);
-            s = s.substring(0, s.length() - 1);
-        }
-    }
 
     /** This function is used to change the meaning of the word if existed.*/
     public void change(String word, String mean) {
@@ -214,15 +198,16 @@ public class TrieDataStructure {
         TrieNode current = root;
         for (char ch : word.toCharArray()) {
             TrieNode child = current.getChild(ch);
-            if (child.count == 1) {
-                current.childList.remove(child);
-                return;
-            }
-            else {
-                child.count--;
-                current = child;
-            }
+            current = child;
         }
         current.isEnd = false;
+    }
+
+    public String get(String word) {
+        TrieNode current = root;
+        for(char ch : word.toCharArray()) {
+            current = current.getChild(ch);
+        }
+        return current.get();
     }
 }

@@ -21,8 +21,6 @@ public class TrieNode {
         type = new LinkedList<>();
         isEnd = false;
         data = c;
-        count = 0;
-        mean = "";
     }
 
     public TrieNode getChild(char c) {
@@ -31,5 +29,16 @@ public class TrieNode {
                 if (eachChild.data == c)
                     return eachChild;
         return null;
+    }
+
+    public String get() {
+        String s = "";
+        for(Type t : type) {
+            s += t.get();
+        }
+        for(Idiom i : idiom) {
+            s += i.get();
+        }
+        return s;
     }
 }
