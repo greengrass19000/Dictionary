@@ -47,11 +47,56 @@ public class Commandline {
 //        Dictionary.insert(word, mean);
     }
 
-
+    public String Word(String word) {
+        if(Dictionary.search(word))
+            return Dictionary.get(word);
+        return "";
+    }
     public void readFromFile() {
         Dictionary.readFromFile();
     }
 
+    public void remove(String word) {
+        Dictionary.remove(word);
+    }
+
+    public void remove1(String word, Integer id) { Dictionary.remove1(word, id); }
+
+    public void remove12(String word, Integer id) { Dictionary.remove12(word, id); }
+
+    public void remove2(String word, Integer id) { Dictionary.remove2(word, id); }
+
+    public void remove21(String word, Integer id, Integer id2) { Dictionary.remove21(word, id, id2); }
+
+    public void remove22(String word, Integer id, Integer id2) { Dictionary.remove22(word, id, id2); }
+
+    public void remove3(String word, Integer id) { Dictionary.remove3(word, id); }
+
+    public void remove31(String word, Integer id, Integer id2) { Dictionary.remove31(word, id, id2); }
+
+    public void remove32(String word, Integer id, Integer id2) { Dictionary.remove32(word, id, id2); }
+
+    public void add1(String word, String s) { Dictionary.add1(word, s);}
+
+    public void add12(String word, String s) { Dictionary.add12(word, s);}
+
+    public void add2(String word, String s) { Dictionary.add2(word, s);}
+
+    public void add21(String word, Integer id, String s) { Dictionary.add21(word, id, s);}
+
+    public void add22(String word, Integer id, String s) { Dictionary.add22(word, id, s);}
+
+    public void add3(String word, String s) { Dictionary.add3(word, s);}
+
+    public void add31(String word, Integer id, String s) { Dictionary.add31(word, id, s);}
+
+    public void add32(String word, Integer id, String s) { Dictionary.add32(word, id, s);}
+
+    public void create(String word) {
+        if(!checkWord(word)) return;
+        word = processWord(word);
+        create(word);
+    }
     public void lookup(String s, int amount) {
         Dictionary.lookup(s, amount);
     }
@@ -59,8 +104,10 @@ public class Commandline {
     public static void main(String[] args) {
         Commandline command = new Commandline();
         command.readFromFile();
-        command.lookup("", 10);
+        //command.lookup("", 10);
+        System.out.println(command.Word("fun"));
+        command.add3("fun", "-------");
+        System.out.println(command.Word("fun"));
         //command.Lookup("h", 2);
-        //command.ShowAllWords();
     }
 }
