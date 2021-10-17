@@ -3,11 +3,11 @@ package com.example.dictionary.backend;
 import java.util.LinkedList;
 
 public class Type{
-    String type = "";
-    LinkedList<String> mean;
-    LinkedList<String> example;
+    public String type;
+    public LinkedList<String> mean;
+    public LinkedList<String> example;
 
-    Type(String s) {
+    public Type(String s) {
         type = s;
         mean = new LinkedList<>();
         example = new LinkedList<>();
@@ -17,17 +17,18 @@ public class Type{
 
     public void addMean(String s) { mean.add(s); }
 
-    public String get() {
-        String s = "";
-        s += "  ";
-        s += type;
-        s += '\n';
+    @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        s.append("  ");
+        s.append(type);
+        s.append('\n');
         for(String ss : mean) {
-            s += "     (nghĩa) " + ss + "\n";
+            s.append("     (nghĩa) ").append(ss).append("\n");
         }
         for(String ss : example) {
-            s += "          VD : " + ss + "\n";
+            s.append("          VD : ").append(ss).append("\n");
         }
-        return s;
+        return s.toString();
     }
 }

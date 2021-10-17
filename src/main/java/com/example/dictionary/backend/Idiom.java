@@ -3,11 +3,11 @@ package com.example.dictionary.backend;
 import java.util.LinkedList;
 
 public class Idiom {
-    String idiom;
-    LinkedList<String> mean;
-    LinkedList<String> example;
+    public String idiom;
+    public LinkedList<String> mean;
+    public LinkedList<String> example;
 
-    Idiom(String s) {
+    public Idiom(String s) {
         mean = new LinkedList<>();
         example = new LinkedList<>();
         idiom = s;
@@ -21,7 +21,8 @@ public class Idiom {
         example.add(s);
     }
 
-    public String get() {
+    @Override
+    public String toString() {
         StringBuilder s = new StringBuilder();
         s.append("  ");
         s.append(idiom);

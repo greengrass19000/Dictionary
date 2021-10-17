@@ -1,5 +1,7 @@
 package com.example.dictionary.components;
 
+import com.example.dictionary.DictionaryController;
+import com.example.dictionary.backend.TrieNode;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.text.TextFlow;
@@ -22,13 +24,16 @@ public class WordDetailsController implements ContentController {
 
     public void display(String word) {
         currentWord = word;
-        //TODO: Actually do something that makes sense
+        TrieNode wordNode = DictionaryController.getDictionary().tryGetNode(word);
+        if (wordNode == null) return;
+
         wordLabel.setText(word);
-        phoneticLabel.setText("/" + word + "/");
-        TextFlowFormatter.formatDescription(description, word + "description", true);
+        phoneticLabel.setText("/" + wordNode.phonetic + "/");
+        TextFlowFormatter.formatDescription(description, wordNode, true);
     }
 
     public void playVolume() {
+        //TODO: IMPLEMENT THIS
         System.out.println("PLAY VOLUME " + currentWord);
     }
 }

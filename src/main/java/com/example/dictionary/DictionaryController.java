@@ -1,5 +1,7 @@
 package com.example.dictionary;
 
+import com.example.dictionary.backend.TrieDataStructure;
+import com.example.dictionary.backend.TrieNode;
 import com.example.dictionary.components.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +13,7 @@ import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 public class DictionaryController {
@@ -26,6 +29,8 @@ public class DictionaryController {
 
     final private Map<String, Node> contentViews = new HashMap<>();
     final private Map<String, ContentController> contentControllers = new HashMap<>();
+
+    private final TrieDataStructure Dictionary = new TrieDataStructure("Dictionary.txt");
 
     String currentlySelectedWord;
 
@@ -70,8 +75,7 @@ public class DictionaryController {
      */
     public void displaySimilarWords(String query) {
         searchResultPanel.getItems().clear();
-        // TODO: hook to backend for real input
-        String[] words = new String[] {"TEST1", "TEST2", "TEST3"};
+        LinkedList<String> words = Dictionary.lookup(query, 10);
 
         for (String word : words) {
             searchResultPanel.getItems().add(word);
@@ -81,9 +85,22 @@ public class DictionaryController {
     /**
      * Remove the currently selected word from the database.
      */
+    public void removeWord(String word) {
+        contentPanel.getChildren().clear();
+        Dictionary.remove(word);
+        displayMessage("Removed " + word + " from database", MessageType.SUCCESS);
+        performSearch();
+    }
+
     public void removeWord() {
-        //TODO: Implement
-        displayMessage("Removed " + currentlySelectedWord + " from database", MessageType.SUCCESS);
+        removeWord(currentlySelectedWord);
+    }
+
+    public void addWord(String word, TrieNode wordNode) {
+        Dictionary.create(word, wordNode);
+        performSearch();
+        WordDetailsController controller = (WordDetailsController) contentControllers.get("word-details.fxml");
+        controller.display(word);
     }
 
     //UI NAVIGATION
@@ -114,6 +131,11 @@ public class DictionaryController {
         }
     }
 
+    public void switchToWordDetail(String word) {
+        currentlySelectedWord = word;
+        switchToWordDetail();
+    }
+
     public void switchToAddWord() {
         loadContentView("edit-word.fxml");
         EditWordController controller = (EditWordController) contentControllers.get("edit-word.fxml");
@@ -123,7 +145,7 @@ public class DictionaryController {
     public void switchToEditWord() {
         loadContentView("edit-word.fxml");
         EditWordController controller = (EditWordController) contentControllers.get("edit-word.fxml");
-        controller.displayEdit(currentlySelectedWord);
+        controller.displayEdit(currentlySelectedWord, Dictionary.tryGetNode(currentlySelectedWord));
     }
 
     public void hideMessage() {
@@ -136,6 +158,10 @@ public class DictionaryController {
         errorDisplay.getStyleClass().clear();
         errorDisplay.getStyleClass().add(type.getStyleClass());
         errorDisplay.setVisible(true);
+    }
+
+    public static TrieDataStructure getDictionary() {
+        return instance.Dictionary;
     }
 
     /**

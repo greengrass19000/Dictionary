@@ -4,26 +4,30 @@ import java.util.LinkedList;
 
 public class TrieNode {
     char data;
-    boolean isEnd;
-    String phonetic;
-    LinkedList<String> mean;
-    LinkedList<TrieNode> childList;
-    LinkedList<Integer> upper;
-    LinkedList<Idiom> idiom;
-    LinkedList<Type> type;
-    LinkedList<String> example;
+    public boolean isEnd = false;
+    public String phonetic = "";
+    public LinkedList<TrieNode> childList = new LinkedList<>();
+    public LinkedList<Integer> upper = new LinkedList<>();
+    public LinkedList<String> mean = new LinkedList<>();
+    public LinkedList<Idiom> idiom = new LinkedList<>();
+    public LinkedList<Type> type = new LinkedList<>();
+    public LinkedList<String> example = new LinkedList<>();
 
     /** Constructor.*/
     public TrieNode(char c) {
-        childList = new LinkedList<>();
-        upper = new LinkedList<>();
-        idiom = new LinkedList<>();
-        type = new LinkedList<>();
-        mean = new LinkedList<>();
-        example = new LinkedList<>();
-        isEnd = false;
         data = c;
-        phonetic = "";
+    }
+    
+    public TrieNode() {
+        data = ' ';
+    }
+
+    public void applyData(TrieNode other)
+    {
+        mean = other.mean;
+        idiom = other.idiom;
+        type = other.type;
+        example = other.example;
     }
 
     public TrieNode getChild(char c) {
@@ -38,20 +42,23 @@ public class TrieNode {
 
     public void addExample(String s) { example.add(s); }
 
-    public String get() {
-        String s = "";
+    @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder();
         for(String ss : mean) {
-            s += ss + "\n";
+            System.out.println("AAA");
+            s.append(ss).append("\n");
         }
         for(String ss : example) {
-            s += ss + "\n";
+            System.out.println("AAA");
+            s.append(ss).append("\n");
         }
         for(Type t : type) {
-            s += t.get();
+            s.append(t.toString());
         }
         for(Idiom i : idiom) {
-            s += i.get();
+            s.append(i.toString());
         }
-        return s;
+        return s.toString();
     }
 }
