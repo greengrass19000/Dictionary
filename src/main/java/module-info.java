@@ -8,6 +8,15 @@ module com.example.dictionary {
     requires org.kordamp.bootstrapfx.core;
     requires javafx.graphics;
 
+    requires jsapi;
+    requires cmu.us.kal;
+    requires en.us;
+    requires freetts;
+    requires freetts.jsapi10;
+    requires cmudict04;
+    requires cmu.time.awb;
+    requires cmulex;
+
     opens com.example.dictionary to javafx.fxml;
     exports com.example.dictionary;
     opens com.example.dictionary.components to javafx.fxml;

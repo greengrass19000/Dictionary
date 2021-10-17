@@ -1,4 +1,7 @@
 package com.example.dictionary.backend;
+
+import static com.example.dictionary.backend.TextSpeech.ReadTheWord;
+
 /** Các chức năng đã có của code:
  * Thêm bớt xóa sửa cơ bản.
  * Kiểm tra xâu với ký tự không hợp lệ.
@@ -108,6 +111,7 @@ public class Commandline {
         System.out.println(command.Word("fun"));
         command.add3("fun", "-------");
         System.out.println(command.Word("fun"));
+        ReadTheWord("nothing");
         //command.Lookup("h", 2);
     }
 }
