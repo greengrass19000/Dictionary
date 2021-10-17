@@ -22,6 +22,7 @@ public class TrieDataStructure {
 
     /** This function is used to search a word in trie.*/
     public boolean isWordExists(String word) {
+        word = word.toLowerCase();
         TrieNode current = root;
         for (char ch : word.toCharArray() ) {
             if (current.getChild(ch) == null)
@@ -93,6 +94,7 @@ public class TrieDataStructure {
     }
 
     public TrieNode tryGetNode(String word) {
+        word = word.toLowerCase();
         if(!isWordExists(word)) {
             DictionaryController.instance.displayMessage("Word does not exists in the database", MessageType.ERROR);
             return null;
@@ -132,6 +134,7 @@ public class TrieDataStructure {
 
     /** This function is used to remove function from trie.*/
     public void remove(String word) {
+        word = word.toLowerCase();
         TrieNode current = tryGetNode(word);
         if (current == null) return;
         current.isEnd = false;
