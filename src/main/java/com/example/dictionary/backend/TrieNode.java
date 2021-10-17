@@ -17,7 +17,7 @@ public class TrieNode {
     public TrieNode(char c) {
         data = c;
     }
-    
+
     public TrieNode() {
         data = ' ';
     }
