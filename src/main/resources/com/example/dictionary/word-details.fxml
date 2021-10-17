@@ -31,7 +31,7 @@
                <Insets left="20.0" top="15.0" />
             </padding>
          </Label>
-         <Button mnemonicParsing="false" styleClass="icon-button" text="" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="15.0">
+         <Button mnemonicParsing="false" onAction="#playVolume" styleClass="icon-button" text="" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="15.0">
             <font>
                <Font name="Font Awesome 5 Free Solid" size="15.0" />
             </font>

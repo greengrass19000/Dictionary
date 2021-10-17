@@ -1,6 +1,7 @@
 package com.example.dictionary.components;
 
 import com.example.dictionary.DictionaryController;
+import com.example.dictionary.backend.TextSpeech;
 import com.example.dictionary.backend.TrieNode;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -33,7 +34,6 @@ public class WordDetailsController implements ContentController {
     }
 
     public void playVolume() {
-        //TODO: IMPLEMENT THIS
-        System.out.println("PLAY VOLUME " + currentWord);
+        TextSpeech.read(currentWord);
     }
 }

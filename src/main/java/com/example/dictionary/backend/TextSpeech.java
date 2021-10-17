@@ -7,7 +7,9 @@ import javax.speech.synthesis.SynthesizerModeDesc;
 
 public class TextSpeech {
 
-    public static void ReadTheWord(String word)  {
+    private static boolean isAllocated = false;
+
+    public static void read(String word)  {
         try {
             // Set property as Kevin Dictionary
             System.setProperty(
@@ -26,20 +28,15 @@ public class TextSpeech {
                     new SynthesizerModeDesc(Locale.US));
 
             // Allocate synthesizer
-            synthesizer.allocate();
-
-            // Resume Synthesizer
-            synthesizer.resume();
+            if (!isAllocated) {
+                synthesizer.allocate();
+                isAllocated = true;
+            }
 
             // Speaks the given text
             // until the queue is empty.
             synthesizer.speakPlainText(
                     word, null);
-            synthesizer.waitEngineState(
-                    Synthesizer.QUEUE_EMPTY);
-
-            // Deallocate the Synthesizer.
-            synthesizer.deallocate();
         }  catch (Exception e) {
             e.printStackTrace();
         }
