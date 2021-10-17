@@ -6,15 +6,19 @@ import com.example.dictionary.components.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Objects;
 
 public class DictionaryController {
     // Cursed singleton pattern that absolutely does not belong to java
@@ -25,6 +29,11 @@ public class DictionaryController {
     @FXML private AnchorPane contentPanel;
     @FXML private Label errorDisplay;
     @FXML private Label translateSuggestion;
+
+    @FXML private Button translateButton;
+    @FXML private Button addButton;
+    @FXML private Button removeButton;
+    @FXML private Button editButton;
 
     final private String[] contentFxml = new String[] {"word-details.fxml", "edit-word.fxml", "translate.fxml"};
 
@@ -183,6 +192,14 @@ public class DictionaryController {
         return instance.Dictionary;
     }
 
+
+    private void setIcon(Button button, String path) {
+        Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream(path)));
+        ImageView imgView = new ImageView(img);
+        imgView.setFitHeight(15);
+        imgView.setFitWidth(15);
+        button.setGraphic(imgView);
+    }
     /**
      * Called on loading time. Load different content panel types into memory.
      */
@@ -191,5 +208,10 @@ public class DictionaryController {
         translateSuggestion.setVisible(false);
         errorDisplay.setVisible(false);
         preloadContentViews();
+
+        setIcon(addButton, "add.png");
+        setIcon(removeButton, "remove.png");
+        setIcon(editButton, "edit.png");
+        setIcon(translateButton, "translate.png");
     }
 }

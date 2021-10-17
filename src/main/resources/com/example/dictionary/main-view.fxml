@@ -25,25 +25,25 @@
                  text="→" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0"/>
          <HBox AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
             <Button mnemonicParsing="false" onAction="#switchToTranslate" styleClass="icon-button"
-                    text="Translate">
+                    fx:id="translateButton">
                <HBox.margin>
                   <Insets right="5.0"/>
                </HBox.margin>
             </Button>
             <Button mnemonicParsing="false" onMouseClicked="#switchToAddWord" styleClass="icon-button"
-                    text="Add">
+                    fx:id="addButton">
                <HBox.margin>
                   <Insets right="5.0"/>
                </HBox.margin>
             </Button>
             <Button mnemonicParsing="false" onMouseClicked="#removeWord" styleClass="icon-button"
-                    text="Delete">
+                    fx:id="removeButton">
                <HBox.margin>
                   <Insets right="5.0"/>
                </HBox.margin>
             </Button>
             <Button mnemonicParsing="false" onMouseClicked="#switchToEditWord" styleClass="icon-button"
-                    text="Edit">
+                    fx:id="editButton">
                <HBox.margin>
                   <Insets right="5.0"/>
                </HBox.margin>
