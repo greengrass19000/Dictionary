@@ -16,9 +16,13 @@ module com.example.dictionary {
     requires cmudict04;
     requires cmu.time.awb;
     requires cmulex;
+    requires java.net.http;
+    requires okhttp3;
+    requires commons.lang;
 
     opens com.example.dictionary to javafx.fxml;
     exports com.example.dictionary;
     opens com.example.dictionary.components to javafx.fxml;
     exports com.example.dictionary.backend;
+    exports com.example.dictionary.utilities;
 }

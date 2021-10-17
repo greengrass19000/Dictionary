@@ -24,8 +24,9 @@ public class DictionaryController {
     @FXML private ListView<String> searchResultPanel;
     @FXML private AnchorPane contentPanel;
     @FXML private Label errorDisplay;
+    @FXML private Label translateSuggestion;
 
-    final private String[] contentFxml = new String[] {"word-details.fxml", "edit-word.fxml"};
+    final private String[] contentFxml = new String[] {"word-details.fxml", "edit-word.fxml", "translate.fxml"};
 
     final private Map<String, Node> contentViews = new HashMap<>();
     final private Map<String, ContentController> contentControllers = new HashMap<>();
@@ -77,8 +78,13 @@ public class DictionaryController {
         searchResultPanel.getItems().clear();
         LinkedList<String> words = Dictionary.lookup(query, 10);
 
-        for (String word : words) {
-            searchResultPanel.getItems().add(word);
+        if (words == null || words.isEmpty()) {
+            translateSuggestion.setVisible(true);
+        } else {
+            translateSuggestion.setVisible(false);
+            for (String word : words) {
+                searchResultPanel.getItems().add(word);
+            }
         }
     }
 
@@ -93,7 +99,8 @@ public class DictionaryController {
     }
 
     public void removeWord() {
-        removeWord(currentlySelectedWord);
+        if (currentlySelectedWord != null)
+            removeWord(currentlySelectedWord);
     }
 
     public void addWord(String word, TrieNode wordNode) {
@@ -143,9 +150,21 @@ public class DictionaryController {
     }
 
     public void switchToEditWord() {
+        if (currentlySelectedWord == null) return;
         loadContentView("edit-word.fxml");
         EditWordController controller = (EditWordController) contentControllers.get("edit-word.fxml");
         controller.displayEdit(currentlySelectedWord, Dictionary.tryGetNode(currentlySelectedWord));
+    }
+
+    public void switchToTranslate() {
+        loadContentView("translate.fxml");
+    }
+
+    public void switchToTranslateSelected() {
+        switchToTranslate();
+        TranslateController controller = (TranslateController) contentControllers.get("translate.fxml");
+        controller.setText(searchInputField.getText());
+        controller.execute();
     }
 
     public void hideMessage() {
@@ -169,6 +188,7 @@ public class DictionaryController {
      */
     public void initialize() throws IOException {
         instance = this;
+        translateSuggestion.setVisible(false);
         errorDisplay.setVisible(false);
         preloadContentViews();
     }

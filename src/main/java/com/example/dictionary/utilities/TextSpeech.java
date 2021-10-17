@@ -1,4 +1,4 @@
-package com.example.dictionary.backend;
+package com.example.dictionary.utilities;
 
 import java.util.Locale;
 import javax.speech.Central;
