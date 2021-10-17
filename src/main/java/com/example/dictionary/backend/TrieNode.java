@@ -38,6 +38,8 @@ public class TrieNode {
 
     public void addExample(String s) { example.add(s); }
 
+    public String getPhonetic() { return phonetic; }
+
     public String get() {
         String s = "";
         for(String ss : mean) {
