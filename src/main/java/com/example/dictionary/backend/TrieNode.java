@@ -3,7 +3,7 @@ package com.example.dictionary.backend;
 import java.util.LinkedList;
 
 public class TrieNode {
-    char data;
+    public char data;
     public boolean isEnd = false;
     public String phonetic = "";
     public LinkedList<TrieNode> childList = new LinkedList<>();
@@ -58,6 +58,24 @@ public class TrieNode {
         }
         for(Idiom i : idiom) {
             s.append(i.toString());
+        }
+        return s.toString();
+    }
+
+    public String export() {
+        StringBuilder s = new StringBuilder();
+        s.append('/').append(phonetic).append('/').append("\n");
+        for (String ss : mean) {
+            s.append("- ").append(ss).append("\n");
+        }
+        for (String ss : example) {
+            s.append("=").append(ss).append("\n");
+        }
+        for (Type t : type) {
+            s.append(t.export());
+        }
+        for (Idiom i : idiom) {
+            s.append(i.export());
         }
         return s.toString();
     }

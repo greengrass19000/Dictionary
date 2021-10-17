@@ -5,12 +5,15 @@ import com.example.dictionary.backend.TrieNode;
 import com.example.dictionary.backend.Type;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Scanner;
 
 public class DefaultDictionaryIOHandler implements DictionaryIOHandler {
+    FileWriter myWriter;
 
     @Override
     public TrieNode read(String path) throws FileNotFoundException {
@@ -93,5 +96,41 @@ public class DefaultDictionaryIOHandler implements DictionaryIOHandler {
     @Override
     public void serialize(String path, TrieNode root) throws FileNotFoundException {
         //TODO: IMPLEMENT THIS
+        try {
+            myWriter = new FileWriter("Dictionary.txt");
+            myWriter.write("\n");
+            Export(root, "", myWriter);
+            myWriter.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
+    public void Export(TrieNode root, String s, FileWriter myWriter) throws IOException {
+        if(root.childList==null || root.childList.size()==0)
+            return;
+        for (TrieNode node : root.childList) {
+            s += node.data;
+            if (node.isEnd) {
+                //Test print
+                String ss = s;
+                for (Integer l : root.upper) {
+                    char c = s.charAt(l);
+                    c = Character.toUpperCase(c);
+                    StringBuilder newStr = new StringBuilder(ss);
+                    newStr.setCharAt(l, c);
+                    ss = newStr.toString();
+                }
+                myWriter.write("@");
+                myWriter.write(ss);
+                myWriter.write(" ");
+                myWriter.write(node.export());
+                myWriter.write("\n");
+                //Test print
+            }
+            Export(node, s, myWriter);
+            s = s.substring(0, s.length() - 1);
+        }
     }
 }

@@ -31,4 +31,18 @@ public class Type{
         }
         return s.toString();
     }
+
+    public String export() {
+        StringBuilder s = new StringBuilder();
+        s.append("*  ");
+        s.append(type);
+        s.append("\n");
+        for(String ss : mean) {
+            s.append("- ").append(ss).append("\n");
+        }
+        for(String ss : example) {
+            s.append("=").append(ss).append("\n");
+        }
+        return s.toString();
+    }
 }
