@@ -26,12 +26,24 @@ public class Idiom {
         StringBuilder s = new StringBuilder();
         s.append("  ");
         s.append(idiom);
-        s.append('\n');
+        s.append("\n");
         for(String t : mean) {
             s.append("     (nghĩa) ").append(t).append("\n");
         }
         for(String t : example) {
             s.append("          VD : ").append(t).append("\n");
+        }
+        return s.toString();
+    }
+
+    public String export(){
+        StringBuilder s = new StringBuilder();
+        s.append("!").append(idiom).append("\n");
+        for(String t : mean) {
+            s.append("- ").append(t).append("\n");
+        }
+        for(String t : example) {
+            s.append("=").append(t).append("\n");
         }
         return s.toString();
     }
